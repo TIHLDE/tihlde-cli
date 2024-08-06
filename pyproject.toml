@@ -1,0 +1,16 @@
+[project]
+name = "tihlde"
+version = "1.0.0"
+description = "A CLI for Tihlde"
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.1",
+]
+
+
+[project.scripts]
+tihlde = "tihlde:cli"
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
