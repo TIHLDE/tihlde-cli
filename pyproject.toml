@@ -10,6 +10,7 @@ dependencies = [
 
 [project.scripts]
 tihlde = "tihlde:cli"
+th = "tihlde:cli"
 
 [build-system]
 requires = ["flit_core<4"]

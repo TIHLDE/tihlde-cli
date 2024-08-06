@@ -1,5 +1,5 @@
 import click
-from .commands.create import create
+from .commands import init
 
 
 @click.group()
@@ -7,4 +7,4 @@ def cli():
     pass
 
 
-cli.add_command(create)
+cli.add_command(init)
