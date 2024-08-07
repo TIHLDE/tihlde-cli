@@ -5,7 +5,7 @@ from typing import Optional
 
 from tihlde.enums import URLS, ResponseType
 from tihlde.api.response import Response
-from tihlde.api.user.user import User
+from tihlde.api.users.user import User
 from tihlde.utils import set_auth
 
 
