@@ -12,3 +12,4 @@ from .bingo import (
     generate_pdf,
     merge_pdfs
 )
+from .auth import set_auth

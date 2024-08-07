@@ -1,10 +1,11 @@
 import requests
 
 from typing import Optional
+from pydantic import ValidationError
 
-from tihlde.enums import URLS, Env
+from tihlde.enums import URLS, ResponseType
 from tihlde.api.response import Response
-from tihlde.utils import get_env_key
+from tihlde.utils import set_auth
 
 
 class MeResponse(Response):
@@ -18,33 +19,23 @@ def getMe() -> MeResponse:
     Sends a GET request to Lepton to get information about the user.
     """
     try:
-        token = get_env_key(Env.TIHLDE_TOKEN.value)
-        if not token:
-            return MeResponse(
-                detail="You are not logged in"
-            )
+        headers: dict = {}
 
-        headers = {
-            "x-csrf-token": token
-        }
+        set_auth(headers)
 
         url = URLS.ME.value
 
         response = requests.get(url, headers=headers)
 
-        # Raise an exception for HTTP errors
         response.raise_for_status()
 
-        # Parse response JSON
         data = response.json()
 
-        # Validate and parse the response using Pydantic
         me_response = MeResponse(**data)
-        me_response.type = "success"
+        me_response.type = ResponseType.SUCCESS.value
 
         return me_response
     except requests.RequestException as e:
-        # Handle network-related errors
         try:
             json = e.response.json()
             if "detail" in json:
@@ -58,3 +49,7 @@ def getMe() -> MeResponse:
             return MeResponse(
                 detail=f"Network error: {e}"
             )
+    except ValidationError as e:
+        return MeResponse(
+            detail=f"Validation error: {e}"
+        )

@@ -21,16 +21,12 @@ def authenticate(username: str, password: str) -> AuthResponse:
 
         response = requests.post(url, data=data)
         
-        # Raise an exception for HTTP errors
         response.raise_for_status() 
 
-        # Parse response JSON
         data = response.json()
 
-        # Validate and parse the response using Pydantic
         auth_response = AuthResponse(**data)
 
-        # Return the token if it exists
         if auth_response.token:
             return AuthResponse(
                 type="success",
@@ -42,7 +38,6 @@ def authenticate(username: str, password: str) -> AuthResponse:
         )
     
     except requests.RequestException as e:
-        # Handle network-related errors
         try:
             json = e.response.json()
             if "detail" in json:
@@ -58,7 +53,6 @@ def authenticate(username: str, password: str) -> AuthResponse:
             )
         
     except ValidationError as e:
-        # Handle errors in JSON structure
         return AuthResponse(
             detail=f"Invalid response structure: {e}"
         )
