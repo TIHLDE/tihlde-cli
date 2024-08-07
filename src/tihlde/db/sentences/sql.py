@@ -32,7 +32,7 @@ def insert_sentence(sentence: str):
         echo(style(f" - Failed to insert sentence: {e}", fg="red"))
 
 
-def show_sentences() -> list[Sentence]:
+def get_all_sentences() -> list[Sentence]:
     """Show all sentences in the database."""
     conn, cursor = get_connection()
     cursor.execute(
