@@ -6,13 +6,20 @@ from reportlab.lib.pagesizes import letter
 
 from PyPDF2 import PdfMerger
 
+from tihlde.settings import (
+    USER_DOWNLOAD_DIR,
+    USER_TEMP_DIR
+)
+
 
 def generate_pdf(
     index: int,
-    sentences: list[str]
+    sentences: list[str],
+    rows: int,
+    cols: int,
 ):
     unique_sentences = list(set(sentences)) 
-    directory = "temp.bingo"
+    directory = USER_TEMP_DIR
 
     if not os.path.exists(directory):
         os.mkdir(directory)
@@ -20,17 +27,17 @@ def generate_pdf(
     pdf_file = f"{directory}/bingo{index + 1}.pdf"
     c = canvas.Canvas(pdf_file, pagesize=letter)
 
-    c.setFont(conf.font, conf.font_size)
+    c.setFont("Helvetica", 10)
 
-    CELL_WIDTH = conf.cell_width
-    CELL_HEIGHT = conf.cell_height
-    X_START = conf.x_start
-    Y_START = conf.y_start
+    CELL_WIDTH = 120
+    CELL_HEIGHT = 120
+    X_START = 5
+    Y_START = 625
 
     random.shuffle(unique_sentences)
 
-    for row in range(conf.rows):
-        for col in range(conf.cols):
+    for row in range(rows):
+        for col in range(cols):
             sentence = unique_sentences.pop(0)
 
             x = X_START + col * CELL_WIDTH
@@ -39,7 +46,7 @@ def generate_pdf(
             c.rect(x, y, CELL_WIDTH, CELL_HEIGHT)
 
             max_chars = int(
-                CELL_WIDTH / conf.max_chars_divider
+                CELL_WIDTH / 6
             )
 
             lines = []
@@ -53,13 +60,25 @@ def generate_pdf(
             if current_line:
                 lines.append(current_line.strip())
 
-            line_height = conf.line_height
+            line_height = 20
 
             for i, line in enumerate(lines):
                 c.drawString(
-                    x + conf.x_offset,
-                    y + CELL_HEIGHT - (i * line_height) - conf.y_offset,
+                    x + 10,
+                    y + CELL_HEIGHT - (i * line_height) - 20,
                     line
                 )
 
     c.save()
+
+
+def merge_pdfs(name: str):
+    merger = PdfMerger()
+    pdf_folder = USER_TEMP_DIR
+    for filename in os.listdir(pdf_folder):
+        if filename.endswith(".pdf"):
+            file_path = os.path.join(pdf_folder, filename)
+            merger.append(file_path)
+    
+    merger.write(f"{USER_DOWNLOAD_DIR}/{name}.pdf")
+    merger.close()

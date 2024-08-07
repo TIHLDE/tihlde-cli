@@ -1,6 +1,12 @@
 import click
 
 from tihlde.db import get_all_sentences
+from tihlde.utils import (
+    generate_pdf,
+    merge_pdfs,
+    clean_dir
+)
+from tihlde.settings import USER_TEMP_DIR
 
 
 @click.command(help="Create a new bingo sheet.")
@@ -41,10 +47,25 @@ def bingo(
     """Create a new bingo sheet."""
     sentences = get_all_sentences()
 
+    if not sentences:
+        click.echo("No sentences found. Use the 'sentences create' command to add sentences.")
+        return
+
     with click.progressbar(
         length=pages,
         label="Generating random bingo sheets"
     ) as bar:
         for i in range(pages):
-            
+            generate_pdf(
+                i,
+                [sentence.name for sentence in sentences],
+                rows,
+                columns
+            )
             bar.update(1)
+    
+    merge_pdfs(name)
+    clean_dir(USER_TEMP_DIR)
+
+    click.echo(click.style(f"Created bingo sheet: {name}.pdf", fg="green"))
+

@@ -4,4 +4,11 @@ from .env import (
     get_env_key
 )
 from .table import show_table
-from .dir import init_dirs
+from .dir import (
+    init_dirs,
+    clean_dir
+)
+from .bingo import (
+    generate_pdf,
+    merge_pdfs
+)
