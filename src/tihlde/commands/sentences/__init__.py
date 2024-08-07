@@ -1,0 +1,1 @@
+from tihlde.commands.sentences.main import sentences

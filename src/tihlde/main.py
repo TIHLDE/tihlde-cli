@@ -2,7 +2,8 @@ import click
 from .commands import (
     init,
     login,
-    me
+    me,
+    sentences
 )
 
 
@@ -14,3 +15,4 @@ def cli():
 cli.add_command(init)
 cli.add_command(login)
 cli.add_command(me)
+cli.add_command(sentences)

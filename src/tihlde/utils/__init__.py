@@ -3,3 +3,4 @@ from .env import (
     update_env,
     get_env_key
 )
+from .table import show_table

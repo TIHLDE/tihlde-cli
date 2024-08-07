@@ -1,17 +1,7 @@
-import os
 import sqlite3
 
-from click import (
-    echo,
-    style
-)
 
-
-def init_db():
-    """Initialize database"""
-    if os.path.exists("tihlde.db"):
-        echo(style(" - Database already exists", fg="yellow"))
-        return
+def get_connection() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
+    """Get a connection and cursor to the database"""
     conn = sqlite3.connect("tihlde.db")
-    conn.close()
-    echo(style(" - Initialized database", fg="green"))
+    return conn, conn.cursor()
