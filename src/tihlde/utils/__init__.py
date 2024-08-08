@@ -6,7 +6,9 @@ from .env import (
 from .table import show_table
 from .dir import (
     init_dirs,
-    clean_dir
+    clean_dir,
+    ls,
+    mkdir
 )
 from .bingo import (
     generate_pdf,

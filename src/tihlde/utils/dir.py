@@ -12,6 +12,7 @@ from tihlde.settings import (
     USER_OWN_FILES,
     USER_TEMP_DIR
 )
+from tihlde.utils import show_table
 
 
 def init_dirs():
@@ -38,3 +39,14 @@ def clean_dir(dir: str):
         os.remove(f"{dir}/{file}")
     
     echo(style(" - Cleaned temporary directory", fg="green"))
+
+
+def ls(dir: str) -> list[str]:
+    """Show all files in directory"""
+    files = os.listdir(dir)
+    show_table(
+        f"Files in '{dir}'",
+        ["Index", "Name"],
+        [(str(i + 1), file) for i, file in enumerate(files)]
+    )
+    

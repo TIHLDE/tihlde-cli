@@ -5,7 +5,8 @@ from .commands import (
     me,
     sentences,
     bingo,
-    users
+    users,
+    files
 )
 
 
@@ -20,3 +21,4 @@ cli.add_command(me)
 cli.add_command(sentences)
 cli.add_command(bingo)
 cli.add_command(users)
+cli.add_command(files)
