@@ -49,4 +49,9 @@ def ls(dir: str) -> list[str]:
         ["Index", "Name"],
         [(str(i + 1), file) for i, file in enumerate(files)]
     )
+
+
+def exists(path: str) -> bool:
+    """Check if path exists"""
+    return os.path.exists(path)
     

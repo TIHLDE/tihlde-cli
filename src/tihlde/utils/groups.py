@@ -8,7 +8,13 @@ def filter_groups(groups: list[Group], group_type: str) -> list[Group]:
 
 
 def get_leaders(groups: list[Group]) -> list[User]:
-    return [group.leader for group in groups]
+    leaders: list[User] = []
+    for group in groups:
+        if group.leader:
+            group.leader.group = group.slug
+            leaders.append(group.leader)
+            
+    return leaders
 
 
 def filter_memberships(membership: MembershipResponse) -> list[User]:

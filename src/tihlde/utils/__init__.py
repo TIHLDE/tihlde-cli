@@ -8,7 +8,8 @@ from .dir import (
     init_dirs,
     clean_dir,
     ls,
-    mkdir
+    mkdir,
+    exists
 )
 from .bingo import (
     generate_pdf,

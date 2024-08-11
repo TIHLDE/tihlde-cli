@@ -4,6 +4,7 @@ from tihlde.api import (
     getGroups,
     getMemberships
 )
+from tihlde.api.users.user import User
 from tihlde.enums import (
     ResponseType,
     GroupType
@@ -11,8 +12,10 @@ from tihlde.enums import (
 from tihlde.utils import (
     filter_groups,
     get_leaders,
-    filter_memberships
+    filter_memberships,
+    exists
 )
+from tihlde.settings import USER_UPLOAD_DIR
 
 
 @click.command(help="Get number of all volunteers.")
@@ -23,7 +26,14 @@ from tihlde.utils import (
     default=False,
     help="Get number of unique volunteers."
 )
-def volunteers(unique: bool):
+@click.option(
+    "--write",
+    "-w",
+    is_flag=True,
+    default=False,
+    help="Write the data to a csv file."
+)
+def volunteers(unique: bool, write: bool):
     """Get number of all volunteers."""
     response = getGroups()
     if response.type == ResponseType.ERROR.value:
@@ -32,10 +42,9 @@ def volunteers(unique: bool):
     groups = filter_groups(response.groups, GroupType.BOARD.value) + filter_groups(response.groups, GroupType.COMMITTEE.value) + filter_groups(response.groups, GroupType.SUBGROUP.value)
 
     interest_groups = filter_groups(response.groups, GroupType.INTERESTGROUP.value)
-    interest_groups_leaders = get_leaders(interest_groups)
+    interest_groups_leaders = get_leaders(interest_groups + groups)
 
-
-    memberships = []
+    memberships: list[User] = []
 
     with click.progressbar(groups, label=f"Getting {'unique ' if unique else ''}volunteers") as bar:
         for group in bar:
@@ -46,9 +55,23 @@ def volunteers(unique: bool):
                 memberships.extend(filter_memberships(response))
 
     if unique:
-        volunteers = len(list(set(memberships)))
+        volunteers = list(set(memberships))
     else:
-        volunteers = len(memberships)
+        volunteers = memberships
 
-    click.echo(click.style(f"Number of volunteers: {volunteers + len(interest_groups_leaders)}", fg="green"))
+    click.echo(click.style(f"Number of volunteers: {len(volunteers) + len(interest_groups_leaders)}", fg="green"))
 
+    if write:
+        dir = f"{USER_UPLOAD_DIR}/volunteers.csv"
+
+        if exists(dir):
+            click.confirm("File already exists. Do you want to overwrite it?", abort=True)
+
+        with open(dir, "w", encoding="utf-8") as f:
+            f.write("group,user_id,full_name,email\n")
+            for user in volunteers:
+                f.write(f"{user.group},{user.user_id},{user.first_name} {user.last_name},{user.email}\n")
+            for user in interest_groups_leaders:
+                f.write(f"{user.group},{user.user_id},{user.first_name} {user.last_name},{user.email}\n")
+        
+        click.echo(click.style(f"Data saved to {dir}", fg="green"))

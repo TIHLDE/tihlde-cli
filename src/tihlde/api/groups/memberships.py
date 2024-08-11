@@ -32,7 +32,7 @@ def getMemberships(group: str) -> MembershipResponse:
         memberships: list[User] = []
         for user_rec in data["results"]:
             user = user_rec["user"]
-            memberships.append(User(**user))
+            memberships.append(User(**user, group=group))
 
         memberships_response = MembershipResponse(memberships=memberships)
         memberships_response.type = ResponseType.SUCCESS.value

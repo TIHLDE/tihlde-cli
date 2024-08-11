@@ -12,6 +12,12 @@ class User(BaseModel):
     allergy: Optional[str] = None
     tool: Optional[str] = None
     number_of_strikes: Optional[int] = None
+    group: Optional[str] = None
 
-    class Config:
-        frozen = True
+    def __hash__(self):
+        return hash((self.user_id, self.email))
+
+    def __eq__(self, other):
+        if not isinstance(other, User):
+            return NotImplemented
+        return (self.user_id, self.email) == (other.user_id, other.email)
