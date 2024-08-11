@@ -12,3 +12,6 @@ class User(BaseModel):
     allergy: Optional[str] = None
     tool: Optional[str] = None
     number_of_strikes: Optional[int] = None
+
+    class Config:
+        frozen = True

@@ -8,3 +8,7 @@ from tihlde.api.files import (
     uploadFile,
     deleteFile
 )
+from tihlde.api.groups import (
+    getGroups,
+    getMemberships
+)
