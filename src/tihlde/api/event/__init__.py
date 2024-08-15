@@ -1,1 +1,0 @@
-from tihlde.api.event.photo import allowPhotoByEvent

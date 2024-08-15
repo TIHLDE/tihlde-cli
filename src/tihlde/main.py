@@ -7,7 +7,8 @@ from .commands import (
     bingo,
     users,
     files,
-    groups
+    groups,
+    events
 )
 
 
@@ -24,3 +25,4 @@ cli.add_command(bingo)
 cli.add_command(users)
 cli.add_command(files)
 cli.add_command(groups)
+cli.add_command(events)

@@ -3,7 +3,10 @@ from tihlde.api.users import (
     getMe,
     allowPhoto
 )
-from tihlde.api.event import allowPhotoByEvent
+from tihlde.api.events import (
+    allowPhotoByEvent,
+    listEvents
+)
 from tihlde.api.files import (
     uploadFile,
     deleteFile
