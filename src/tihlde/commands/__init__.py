@@ -7,3 +7,4 @@ from .users import users
 from .files import files
 from .groups import groups
 from .events import events
+from tihlde.commands.google import google

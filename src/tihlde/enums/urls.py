@@ -12,3 +12,4 @@ class URLS(Enum):
     DELETE_FILE = f"{TIHLDE_API_URL}/delete-file/"
     GROUPS = f"{TIHLDE_API_URL}/groups/"
     GROUPS_OVERVIEW = f"{TIHLDE_API_URL}/groups?overview=true"
+    FORMS = f"{TIHLDE_API_URL}/forms/"

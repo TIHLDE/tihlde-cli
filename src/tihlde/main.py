@@ -8,7 +8,8 @@ from .commands import (
     users,
     files,
     groups,
-    events
+    events,
+    google
 )
 
 
@@ -26,3 +27,4 @@ cli.add_command(users)
 cli.add_command(files)
 cli.add_command(groups)
 cli.add_command(events)
+cli.add_command(google)

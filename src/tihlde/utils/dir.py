@@ -54,4 +54,9 @@ def ls(dir: str) -> list[str]:
 def exists(path: str) -> bool:
     """Check if path exists"""
     return os.path.exists(path)
+
+
+def check_extension(file: str, extension: str) -> bool:
+    """Check if file has the correct extension"""
+    return file.endswith(extension)
     

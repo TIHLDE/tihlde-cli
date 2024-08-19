@@ -15,3 +15,7 @@ from tihlde.api.groups import (
     getGroups,
     getMemberships
 )
+from tihlde.api.forms import (
+    getGroupForms,
+    getAdmissions
+)

@@ -2,6 +2,14 @@ from pydantic import BaseModel
 from typing import Optional
 
 
+class SchoolInfoGroup(BaseModel):
+    name: Optional[str] = None
+
+
+class SchoolInfo(BaseModel):
+    group: Optional[SchoolInfoGroup] = None
+
+
 class User(BaseModel):
     user_id: Optional[str] = None
     first_name: Optional[str] = None
@@ -13,6 +21,8 @@ class User(BaseModel):
     tool: Optional[str] = None
     number_of_strikes: Optional[int] = None
     group: Optional[str] = None
+    study: Optional[SchoolInfo] = None
+    studyyear: Optional[SchoolInfo] = None
 
     def __hash__(self):
         return hash((self.user_id, self.email))
