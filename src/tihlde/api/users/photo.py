@@ -34,9 +34,6 @@ def allowPhoto() -> UserAllowPhotoResponse:
         data = response.json()
 
         users: list[User] = []
-        if not data["next"]:
-            for user in data["results"]:
-                users.append(User(**user))
 
         while data["next"]:
             for user in data["results"]:
@@ -46,6 +43,10 @@ def allowPhoto() -> UserAllowPhotoResponse:
             response.raise_for_status()
             data = response.json()
 
+        if not data["next"]:
+            for user in data["results"]:
+                users.append(User(**user))
+        
         user_response = UserAllowPhotoResponse(users=users)
         user_response.type = ResponseType.SUCCESS.value
 

@@ -1,0 +1,1 @@
+from tihlde.api.events.registrations.registrations import listRegistrations

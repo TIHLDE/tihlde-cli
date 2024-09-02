@@ -1,0 +1,1 @@
+from tihlde.commands.events.registrations.main import registrations

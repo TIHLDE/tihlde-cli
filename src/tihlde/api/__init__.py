@@ -5,7 +5,8 @@ from tihlde.api.users import (
 )
 from tihlde.api.events import (
     allowPhotoByEvent,
-    listEvents
+    listEvents,
+    listRegistrations
 )
 from tihlde.api.files import (
     uploadFile,

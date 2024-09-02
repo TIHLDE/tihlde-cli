@@ -5,3 +5,4 @@ from tihlde.api.models.admission import (
     Admission,
     Answer
 )
+from tihlde.api.models.registration import Registration

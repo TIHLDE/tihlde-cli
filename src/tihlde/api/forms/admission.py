@@ -33,9 +33,6 @@ def getAdmissions(id: str) -> AdmissionResponse:
         data = response.json()
 
         admissions: list[Admission] = []
-        if not data["next"]:
-            for admission in data["results"]:
-                admissions.append(Admission(**admission))
 
         while data["next"]:
             for admission in data["results"]:
@@ -44,6 +41,10 @@ def getAdmissions(id: str) -> AdmissionResponse:
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
+        
+        if not data["next"]:
+            for admission in data["results"]:
+                admissions.append(Admission(**admission))
 
         admissions_response = AdmissionResponse(admissions=admissions)
         admissions_response.type = ResponseType.SUCCESS.value
